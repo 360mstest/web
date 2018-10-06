@@ -392,7 +392,7 @@ func (self *THandler) Apply() {
 		if self.TemplateSrc != "" {
 			self.SetHeader(true, "Content-Type", self.ContentType)
 			//self.Template.Render(self.TemplateSrc, self.Response, self.RenderArgs)
-			err := self.Template.RenderToWriter(self.TemplateSrc, self.RenderArgs, self.Response)
+			err := self.Template.RenderToWriter(self.TemplateSrc, self.RenderArgs, self.Response, "base")
 			if err != nil {
 				http.Error(self.Response, "Apply fail:"+err.Error(), http.StatusInternalServerError)
 			}
