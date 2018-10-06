@@ -44,14 +44,14 @@ type (
 
 	// 路由节点绑定的控制器 func(Handler)
 	TMethodType struct {
-		Name      string         // 名称
-		Func      reflect.Value  // 方法本体
-		FuncType  reflect.Type   // 方法类型
+		Name     string        // 名称
+		Func     reflect.Value // 方法本体
+		FuncType reflect.Type  // 方法类型
 		//ArgType   []reflect.Type // 参数组类型
 		//ReplyType []reflect.Type //TODO 返回多结果
-			ArgType   reflect.Type // 参数组类型
+		ArgType   reflect.Type // 参数组类型
 		ReplyType reflect.Type //TODO 返回多结果
-		}
+	}
 
 	// TRoute 路,表示一个Link 连接地址"../webgo/"
 	// 提供基础数据参数供Handler处理
@@ -216,7 +216,7 @@ func (self *TRouter) Init() {
 		}
 	*/
 	//self.RegisterModules(admin.Admin)
-	if self.Server.Config.PrintRouterTree {
+	if self.show_route || self.Server.Config.PrintRouterTree {
 		self.tree.PrintTrees()
 	}
 }
@@ -907,7 +907,7 @@ func (self *TRouter) routeProxy(route *TRoute, param Params, req *http.Request, 
 }
 
 // 显示被调用的路由
-func (self *TRouter) ShowRoute(sw bool) {
+func (self *TRouter) ShowRouter(sw bool) {
 	self.show_route = sw
 }
 
