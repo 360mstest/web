@@ -210,7 +210,7 @@ func (self *TServer) __ListenTLS(certFile, keyFile string, addr ...string) {
 }
 
 func (self *TServer) ShowRoute(sw bool) {
-	self.Router.ShowRoute(sw)
+	self.Router.ShowRouter(sw)
 }
 
 func (self *TServer) ShowRouter() {

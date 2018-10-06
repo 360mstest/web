@@ -294,7 +294,7 @@ func (self *TRouter) safelyCall(function reflect.Value, args []reflect.Value, hd
 					logger.ErrLn(file, line)
 				}
 			} else {
-				logger.Panic("", err)
+				logger.Panic("%v", err)
 			}
 		}
 	}()

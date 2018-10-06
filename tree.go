@@ -55,8 +55,8 @@ type (
 
 	Params []param
 
-// 配置函数接口
- ConfigOption func(*TTree)
+	// 配置函数接口
+	ConfigOption func(*TTree)
 
 	// 使用Sort 接口自动排序
 	TSubNodes []*TNode
@@ -76,9 +76,9 @@ type (
 	}
 
 	TTree struct {
-		Text       string
-		Root       map[string]*TNode
-		IgnoreCase bool
+		Text        string
+		Root        map[string]*TNode
+		IgnoreCase  bool
 		DelimitChar byte // Delimit Char xxx.xxx
 		//lock sync.RWMutex
 	}
@@ -135,8 +135,8 @@ func (self TSubNodes) Less(i, j int) bool {
 
 func NewRouteTree(config_fn ...ConfigOption) *TTree {
 	lTree := &TTree{
-		Root: make(map[string]*TNode),
-		DelimitChar:'/',
+		Root:        make(map[string]*TNode),
+		DelimitChar: '/',
 	}
 
 	/*
@@ -145,10 +145,10 @@ func NewRouteTree(config_fn ...ConfigOption) *TTree {
 				Children: TSubNodes{},
 			}
 		}*/
-		
-		for _,cfg:=range config_fn{
-			cfg(lTree)
-		}
+
+	for _, cfg := range config_fn {
+		cfg(lTree)
+	}
 	return lTree
 }
 
@@ -162,7 +162,7 @@ func (r *TTree) parsePath(path string) (nodes []*TNode, isDyn bool) {
 	if path == "" {
 		panic("echo: path cannot be empty")
 	}
-	if r.DelimitChar=='/' && path[0] != '/' {
+	if r.DelimitChar == '/' && path[0] != '/' {
 		path = "/" + path
 	}
 
@@ -181,8 +181,8 @@ func (r *TTree) parsePath(path string) (nodes []*TNode, isDyn bool) {
 	//j = i - 1 // 当i==0时J必须小于它
 	for ; i < l; i++ {
 		switch path[i] {
-			case r.DelimitChar:
-		//case '/':
+		case r.DelimitChar:
+			//case '/':
 
 			{ // 创建Text:'/' Node
 				if bracket == 0 && i > j {
@@ -478,7 +478,7 @@ func (r *TTree) matchNode(aNode *TNode, aUrl string, aParams *Params) *TNode {
 
 func (r *TTree) Match(method string, url string) (*TRoute, Params) {
 	lRoot := r.Root[method]
- 
+
 	var lParams = make(Params, 0, strings.Count(url, string(r.DelimitChar)))
 	for _, n := range lRoot.Children {
 		e := r.matchNode(n, url, &lParams)
@@ -588,13 +588,14 @@ func (self *TTree) conbine(aDes, aSrc *TNode) {
 func (self *TTree) Conbine(aTree *TTree) *TTree {
 	for method, snode := range aTree.Root {
 		// 如果主树没有该方法叉则直接移植
-		if _, has := self.Root[method]; !has {
+		if node, has := self.Root[method]; !has {
 			self.Root[method] = snode
 		} else {
 			// 采用逐个添加
-			for _, node := range self.Root[method].Children {
-				self.conbine(node, snode)
+			for _, n := range snode.Children {
+				self.conbine(node, n)
 			}
+
 		}
 	}
 

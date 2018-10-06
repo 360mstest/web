@@ -13,6 +13,10 @@ func TestTree(t *testing.T) {
 	fmt.Println("Test combine")
 	tree.AddRoute("GET", "/abc1/abc1/abc1", r)
 	tree2.AddRoute("GET", "/abc1/(:name1)abc1(:name2)", r)
+
+	tree.Conbine(tree2)
+	tree.PrintTrees()
+
 	//tree.Conbine(tree2)
 	//	tree.printTrees()
 	//	tree2.printTrees()
